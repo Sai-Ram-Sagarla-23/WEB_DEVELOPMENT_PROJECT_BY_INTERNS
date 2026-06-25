@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Web Development Mastery Lab</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{
+  --bg:#0F0F23;--bg2:#16162A;--bg3:#1E1E3F;--panel:#13132B;
+  --border:#252550;--html:#E44D26;--css:#264DE4;--js:#F7DF1E;
+  --react:#61DAFB;--green:#00E676;--pink:#FF4081;--purple:#B388FF;
+  --text:#C8C8FF;--text-dim:#4A4A80;--text-bright:#E8E8FF;
+  --mono:'Fira Code',monospace;--head:'Nunito',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--head);min-height:100vh;}
+.hdr{background:linear-gradient(90deg,#0A0A1A,#0F0F23);border-bottom:1px solid var(--border);height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:100;}
+.logo{font-size:1.35rem;font-weight:900;color:var(--text-bright);display:flex;align-items:center;gap:10px;}
+.tech-badges{display:flex;gap:5px;}
+.tb{padding:3px 9px;border-radius:3px;font-size:0.6rem;font-family:var(--mono);font-weight:700;letter-spacing:0.08em;}
+.tb-html{background:rgba(228,77,38,0.15);border:1px solid var(--html);color:var(--html);}
+.tb-css{background:rgba(38,77,228,0.15);border:1px solid var(--css);color:var(--css);}
+.tb-js{background:rgba(247,223,30,0.12);border:1px solid var(--js);color:var(--js);}
+.tb-react{background:rgba(97,218,251,0.1);border:1px solid var(--react);color:var(--react);}
+.hero{padding:3rem 2rem 2rem;background:linear-gradient(180deg,#0A0A1A,var(--bg));position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(97,218,251,0.08),transparent);}
+.hero h1{font-size:clamp(2rem,5vw,3.8rem);font-weight:900;color:var(--text-bright);line-height:1.05;letter-spacing:-0.02em;position:relative;}
+.hero h1 span{background:linear-gradient(90deg,var(--html),var(--css),var(--js));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-family:var(--mono);font-size:0.78rem;color:var(--text-dim);margin:0.75rem 0 1.5rem;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{background:rgba(97,218,251,0.07);border:1px solid rgba(97,218,251,0.2);color:var(--react);font-size:0.63rem;font-family:var(--mono);padding:3px 9px;border-radius:3px;}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 190px);border-top:1px solid var(--border);}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:1rem 0;position:sticky;top:62px;height:calc(100vh - 62px);overflow-y:auto;}
+.s-label{font-size:0.57rem;font-family:var(--mono);color:var(--text-dim);letter-spacing:0.18em;padding:0.65rem 1rem 0.3rem;text-transform:uppercase;border-top:1px solid var(--border);}
+.s-label:first-child{border-top:none;}
+.s-item{display:flex;align-items:center;gap:8px;padding:0.5rem 1rem;cursor:pointer;font-size:0.79rem;color:var(--text-dim);font-weight:700;transition:all 0.15s;border-left:3px solid transparent;}
+.s-item:hover{background:rgba(97,218,251,0.05);color:var(--text);}
+.s-item.active{background:rgba(97,218,251,0.08);border-left-color:var(--react);color:var(--react);}
+.s-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.ws{padding:2rem;overflow-y:auto;}
+.mod{display:none;animation:fi 0.25s ease;}
+.mod.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.mod-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem;}
+.mod-title{font-size:1.6rem;font-weight:900;color:var(--text-bright);letter-spacing:-0.02em;}
+.mod-sub{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-top:3px;}
+.badge-sm{font-size:0.62rem;font-family:var(--mono);padding:3px 10px;border-radius:3px;white-space:nowrap;letter-spacing:0.08em;}
+.badge-html{background:rgba(228,77,38,0.1);border:1px solid rgba(228,77,38,0.3);color:var(--html);}
+.badge-css{background:rgba(38,77,228,0.1);border:1px solid rgba(38,77,228,0.3);color:var(--css);}
+.badge-js{background:rgba(247,223,30,0.08);border:1px solid rgba(247,223,30,0.3);color:var(--js);}
+.badge-react{background:rgba(97,218,251,0.08);border:1px solid rgba(97,218,251,0.3);color:var(--react);}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.2rem;}
+.ph{background:var(--bg2);border-bottom:1px solid var(--border);padding:0.65rem 1.1rem;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:0.78rem;font-weight:600;letter-spacing:0.06em;}
+.pb{padding:1.1rem;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr;}.layout{grid-template-columns:1fr;}.sidebar{position:static;height:auto;}}
+.code{background:#0A0A18;border:1px solid var(--border);border-radius:5px;padding:1rem;font-family:var(--mono);font-size:0.72rem;line-height:1.85;overflow-x:auto;white-space:pre;color:var(--text);}
+.ch{background:#0F0F20;border-bottom:1px solid var(--border);padding:5px 1rem;display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.63rem;color:var(--text-dim);}
+.cd{width:9px;height:9px;border-radius:50%;}
+.cd-r{background:#FF5F57;}.cd-y{background:#FFBD2E;}.cd-g{background:#28CA42;}
+.kw{color:#FF79C6;}.fn{color:#50FA7B;}.st{color:#F1FA8C;}.cm{color:var(--text-dim);}.num{color:#BD93F9;}.cls{color:#8BE9FD;}.atr{color:#FFB86C;}.tag-c{color:#FF79C6;}
+.preview{background:#fff;border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.preview-bar{background:#2A2A4A;padding:6px 10px;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:0.62rem;color:var(--text-dim);}
+.preview-frame{width:100%;min-height:200px;border:none;background:#fff;}
+.btn{font-family:var(--head);font-weight:700;font-size:0.74rem;letter-spacing:0.05em;text-transform:uppercase;padding:0.44rem 1rem;border:1px solid;border-radius:4px;cursor:pointer;transition:all 0.15s;background:transparent;}
+.btn-html{border-color:var(--html);color:var(--html);}
+.btn-html:hover,.btn-html.on{background:var(--html);color:#fff;}
+.btn-css{border-color:var(--css);color:var(--css);}
+.btn-css:hover,.btn-css.on{background:var(--css);color:#fff;}
+.btn-js{border-color:var(--js);color:var(--js);}
+.btn-js:hover,.btn-js.on{background:var(--js);color:#000;}
+.btn-react{border-color:var(--react);color:var(--react);}
+.btn-react:hover,.btn-react.on{background:var(--react);color:#000;}
+.btn-g{border-color:var(--green);color:var(--green);}
+.btn-g:hover{background:var(--green);color:#000;}
+.btn-p{border-color:var(--pink);color:var(--pink);}
+.btn-p:hover{background:var(--pink);color:#fff;}
+.btns{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:0.9rem;}
+input,select,textarea{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.77rem;padding:5px 9px;border-radius:4px;outline:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--react);}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:7px;}
+.lbl{font-family:var(--mono);font-size:0.68rem;color:var(--text-dim);min-width:80px;}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:1rem;margin-bottom:1.2rem;}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:0.8rem;text-align:center;}
+.sv{font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--react);}
+.sl{font-size:0.63rem;color:var(--text-dim);margin-top:2px;}
+.tab-row{display:flex;border-bottom:1px solid var(--border);margin-bottom:1rem;overflow-x:auto;}
+.tab{font-family:var(--mono);font-size:0.72rem;padding:0.5rem 1rem;cursor:pointer;border-bottom:2px solid transparent;color:var(--text-dim);white-space:nowrap;transition:all 0.15s;}
+.tab:hover{color:var(--text);}.tab.active{color:var(--react);border-bottom-color:var(--react);}
+.tc{display:none;}.tc.active{display:block;}
+.info{background:rgba(97,218,251,0.05);border:1px solid rgba(97,218,251,0.15);border-radius:4px;padding:0.65rem 1rem;font-size:0.76rem;color:var(--text-dim);font-family:var(--mono);line-height:1.6;margin-bottom:0.9rem;}
+.info strong{color:var(--react);}
+.out-box{background:#0A0A18;border:1px solid var(--border);border-left:3px solid var(--react);border-radius:4px;padding:0.75rem 1rem;font-family:var(--mono);font-size:0.73rem;color:var(--green);line-height:1.8;margin-top:0.7rem;}
+.quiz-q{font-size:0.88rem;font-weight:700;color:var(--text-bright);margin-bottom:0.9rem;line-height:1.5;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:0.9rem;}
+.quiz-opt{padding:0.55rem 0.9rem;background:var(--bg3);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:0.77rem;font-family:var(--mono);transition:all 0.12s;text-align:left;color:var(--text);}
+.quiz-opt:hover{background:rgba(97,218,251,0.06);border-color:var(--react);}
+.quiz-opt.correct{background:rgba(0,230,118,0.1);border-color:var(--green);color:var(--green);}
+.quiz-opt.wrong{background:rgba(255,64,129,0.08);border-color:var(--pink);color:var(--pink);}
+.score-bar{background:var(--bg3);border-radius:2px;height:4px;overflow:hidden;}
+.score-fill{height:100%;background:linear-gradient(90deg,var(--html),var(--js),var(--react));border-radius:2px;transition:width 0.4s;}
+.prog-bar{background:var(--bg3);border-radius:2px;height:5px;overflow:hidden;margin:3px 0;}
+.prog-fill{height:100%;border-radius:2px;transition:width 0.5s;}
+.li-banner{background:linear-gradient(135deg,#0A0A1A,#14142A);border:1px solid var(--border);border-top:3px solid var(--react);border-radius:6px;padding:1.5rem;margin-top:2rem;text-align:center;}
+.li-banner h3{font-size:1.3rem;font-weight:900;color:var(--text-bright);margin-bottom:0.4rem;}
+.li-banner p{font-size:0.77rem;color:var(--text-dim);font-family:var(--mono);line-height:1.7;margin-bottom:0.75rem;}
+::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">🌐 Web <span style="color:var(--react)">Dev</span> Mastery Lab</div>
+  <div class="tech-badges">
+    <span class="tb tb-html">HTML5</span>
+    <span class="tb tb-css">CSS3</span>
+    <span class="tb tb-js">JavaScript</span>
+    <span class="tb tb-react">React</span>
+  </div>
+</header>
+<section class="hero">
+  <h1>Web <span>Development</span><br/>Complete Masterclass</h1>
+  <p class="hero-sub">// HTML · CSS · JAVASCRIPT · REACT · NODE · APIs · RESPONSIVE DESIGN</p>
+  <div class="tags">
+    <span class="tag">HTML5 Semantics</span><span class="tag">CSS Flexbox/Grid</span><span class="tag">JavaScript ES2024</span>
+    <span class="tag">React Hooks</span><span class="tag">REST APIs</span><span class="tag">Node.js</span>
+    <span class="tag">Responsive Design</span><span class="tag">Web Performance</span><span class="tag">Accessibility</span>
+  </div>
+</section>
+<div class="layout">
+<nav class="sidebar">
+  <div class="s-label">HTML Foundations</div>
+  <div class="s-item active" onclick="showW('html')"><span class="s-dot"></span>HTML5 Structure</div>
+  <div class="s-item" onclick="showW('forms')"><span class="s-dot"></span>Forms & Validation</div>
+  <div class="s-label">CSS Mastery</div>
+  <div class="s-item" onclick="showW('css')"><span class="s-dot"></span>CSS Flexbox & Grid</div>
+  <div class="s-item" onclick="showW('animations')"><span class="s-dot"></span>Animations & Effects</div>
+  <div class="s-item" onclick="showW('responsive')"><span class="s-dot"></span>Responsive Design</div>
+  <div class="s-label">JavaScript</div>
+  <div class="s-item" onclick="showW('js')"><span class="s-dot"></span>JS ES2024 Features</div>
+  <div class="s-item" onclick="showW('dom')"><span class="s-dot"></span>DOM Manipulation</div>
+  <div class="s-item" onclick="showW('async')"><span class="s-dot"></span>Async / Fetch API</div>
+  <div class="s-label">Advanced</div>
+  <div class="s-item" onclick="showW('react')"><span class="s-dot"></span>React & Hooks</div>
+  <div class="s-item" onclick="showW('quiz')"><span class="s-dot"></span>Web Dev Quiz</div>
+</nav>
+<main class="ws">
+
+<!-- HTML -->
+<div class="mod active" id="w-html">
+  <div class="mod-hdr"><div><div class="mod-title">HTML5 Structure & Semantics</div><div class="mod-sub">// DOCTYPE · semantic tags · meta · accessibility · SEO</div></div><span class="badge-sm badge-html">HTML5</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--html);">⚡ Live HTML Editor</div>
+      <div class="pb">
+        <div class="info"><strong>LIVE PREVIEW:</strong> Edit the HTML below and click RUN to see it rendered instantly.</div>
+        <textarea id="htmlEditor" rows="12" style="width:100%;font-size:0.72rem;line-height:1.7;background:#0A0A18;color:#F8F8F2;border-color:var(--border);">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;My Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;🎓 Learning HTML5&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;a href="#"&gt;Home&lt;/a&gt; |
+      &lt;a href="#"&gt;About&lt;/a&gt; |
+      &lt;a href="#"&gt;Contact&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;h2&gt;Welcome to Web Dev!&lt;/h2&gt;
+      &lt;p&gt;This is a &lt;strong&gt;semantic&lt;/strong&gt; HTML page.&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;HTML → Structure&lt;/li&gt;
+        &lt;li&gt;CSS → Style&lt;/li&gt;
+        &lt;li&gt;JS → Behaviour&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/article&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;&lt;p&gt;© 2024 My Website&lt;/p&gt;&lt;/footer&gt;
+&lt;/body&gt;&lt;/html&gt;</textarea>
+        <div class="btns" style="margin-top:0.75rem;">
+          <button class="btn btn-html" onclick="runHTML()">▶ RUN PREVIEW</button>
+          <button class="btn btn-g" onclick="checkHTML()">✓ VALIDATE</button>
+        </div>
+        <div class="preview">
+          <div class="preview-bar"><span>🌐</span><span>Live Preview</span></div>
+          <iframe id="htmlPreview" class="preview-frame" style="height:200px;"></iframe>
+        </div>
+        <div class="out-box" id="htmlOut" style="min-height:40px;">>>> Click RUN to preview your HTML</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--html);">📄 HTML5 Cheatsheet</div>
+      <div class="pb">
+<div class="ch"><span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span><span style="margin-left:7px;">semantic_html.html</span></div>
+<div class="code"><span class="cm">&lt;!-- HTML5 Semantic Structure --&gt;</span>
+<span class="tag-c">&lt;header&gt;</span>   <span class="cm">Site header, logo, main nav</span>
+<span class="tag-c">&lt;nav&gt;</span>      <span class="cm">Navigation links</span>
+<span class="tag-c">&lt;main&gt;</span>     <span class="cm">Main unique content (one per page)</span>
+<span class="tag-c">&lt;article&gt;</span>  <span class="cm">Self-contained content (blog post)</span>
+<span class="tag-c">&lt;section&gt;</span>  <span class="cm">Thematic group of content</span>
+<span class="tag-c">&lt;aside&gt;</span>    <span class="cm">Sidebar / related content</span>
+<span class="tag-c">&lt;footer&gt;</span>   <span class="cm">Footer with links, copyright</span>
+<span class="tag-c">&lt;figure&gt;</span>   <span class="cm">Image + caption container</span>
+<span class="tag-c">&lt;time&gt;</span>     <span class="cm">Machine-readable date/time</span>
+
+<span class="cm">&lt;!-- Metadata for SEO --&gt;</span>
+<span class="tag-c">&lt;meta</span> <span class="atr">name</span>=<span class="st">"description"</span> <span class="atr">content</span>=<span class="st">"..."</span><span class="tag-c">&gt;</span>
+<span class="tag-c">&lt;meta</span> <span class="atr">property</span>=<span class="st">"og:title"</span> <span class="atr">content</span>=<span class="st">"..."</span><span class="tag-c">&gt;</span>
+<span class="tag-c">&lt;link</span> <span class="atr">rel</span>=<span class="st">"canonical"</span> <span class="atr">href</span>=<span class="st">"..."</span><span class="tag-c">&gt;</span>
+
+<span class="cm">&lt;!-- Accessibility (ARIA) --&gt;</span>
+<span class="tag-c">&lt;button</span> <span class="atr">aria-label</span>=<span class="st">"Close menu"</span><span class="tag-c">&gt;</span>✕<span class="tag-c">&lt;/button&gt;</span>
+<span class="tag-c">&lt;img</span> <span class="atr">src</span>=<span class="st">"logo.png"</span> <span class="atr">alt</span>=<span class="st">"Company logo"</span><span class="tag-c">&gt;</span>
+<span class="tag-c">&lt;div</span> <span class="atr">role</span>=<span class="st">"alert"</span> <span class="atr">aria-live</span>=<span class="st">"polite"</span><span class="tag-c">&gt;</span><span class="tag-c">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- HTML5 Media --&gt;</span>
+<span class="tag-c">&lt;video</span> <span class="atr">controls</span> <span class="atr">autoplay</span> <span class="atr">muted</span><span class="tag-c">&gt;</span>
+  <span class="tag-c">&lt;source</span> <span class="atr">src</span>=<span class="st">"video.mp4"</span> <span class="atr">type</span>=<span class="st">"video/mp4"</span><span class="tag-c">&gt;</span>
+<span class="tag-c">&lt;/video&gt;</span>
+<span class="tag-c">&lt;canvas</span> <span class="atr">id</span>=<span class="st">"myCanvas"</span> <span class="atr">width</span>=<span class="st">"500"</span><span class="tag-c">&gt;&lt;/canvas&gt;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMS -->
+<div class="mod" id="w-forms">
+  <div class="mod-hdr"><div><div class="mod-title">Forms & Validation</div><div class="mod-sub">// input types · constraints API · custom validation · UX patterns</div></div><span class="badge-sm badge-html">HTML5 FORMS</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--html);">⚡ Interactive Form Builder</div>
+      <div class="pb">
+        <div class="info"><strong>SMART FORMS:</strong> HTML5 adds powerful built-in validation. Test the form below — try submitting with invalid data.</div>
+        <div style="background:#fff;border-radius:5px;padding:1rem;">
+          <div id="liveForm"></div>
+        </div>
+        <div class="out-box" id="formOut" style="min-height:40px;">>>> Fill the form above and click Submit</div>
+        <div class="btns" style="margin-top:0.75rem;">
+          <button class="btn btn-html" onclick="buildForm('signup')">SIGNUP FORM</button>
+          <button class="btn btn-css" onclick="buildForm('login')">LOGIN FORM</button>
+          <button class="btn btn-js" onclick="buildForm('contact')">CONTACT FORM</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--html);">📄 Form Validation Code</div>
+      <div class="pb">
+<div class="ch"><span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span><span style="margin-left:7px;">form_validation.js</span></div>
+<div class="code"><span class="cm">// HTML5 Constraint Validation API</span>
+<span class="kw">const</span> form = document.<span class="fn">querySelector</span>(<span class="st">'form'</span>);
+<span class="kw">const</span> email = document.<span class="fn">querySelector</span>(<span class="st">'#email'</span>);
+
+<span class="cm">// Custom validation message</span>
+email.<span class="fn">addEventListener</span>(<span class="st">'input'</span>, () => {
+  <span class="kw">if</span> (email.validity.typeMismatch) {
+    email.<span class="fn">setCustomValidity</span>(<span class="st">'Please enter a valid email!'</span>);
+  } <span class="kw">else</span> {
+    email.<span class="fn">setCustomValidity</span>(<span class="st">''</span>); <span class="cm">// Clear error</span>
+  }
+});
+
+<span class="cm">// Prevent submit if invalid</span>
+form.<span class="fn">addEventListener</span>(<span class="st">'submit'</span>, (e) => {
+  <span class="kw">if</span> (!form.checkValidity()) {
+    e.<span class="fn">preventDefault</span>();
+    form.<span class="fn">reportValidity</span>();
+    <span class="kw">return</span>;
+  }
+  <span class="cm">// FormData — easy serialization</span>
+  <span class="kw">const</span> data = <span class="kw">new</span> <span class="fn">FormData</span>(form);
+  <span class="kw">const</span> obj = <span class="cls">Object</span>.<span class="fn">fromEntries</span>(data);
+  console.<span class="fn">log</span>(obj); <span class="cm">// {name:"Alice", email:"..."}</span>
+});
+
+<span class="cm">// HTML5 input types with built-in validation:
+// type="email"    → validates email format
+// type="url"      → validates URL format
+// type="number"   → min/max/step
+// type="date"     → date picker
+// type="tel"      → phone (pattern required)
+// required        → must be filled
+// minlength/maxlength → length constraints
+// pattern="[A-Z]{3}" → regex validation</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CSS -->
+<div class="mod" id="w-css">
+  <div class="mod-hdr"><div><div class="mod-title">CSS Flexbox & Grid</div><div class="mod-sub">// flex · grid · gap · alignment · auto-fit · minmax</div></div><span class="badge-sm badge-css">CSS3</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--css);">⚡ Layout Builder</div>
+      <div class="pb">
+        <div class="info"><strong>LAYOUT:</strong> Toggle Flexbox vs Grid properties and see the layout change live.</div>
+        <div class="tab-row">
+          <div class="tab active" onclick="swW(this,'flex-tab')">Flexbox</div>
+          <div class="tab" onclick="swW(this,'grid-tab')">Grid</div>
+        </div>
+        <div class="tc active" id="flex-tab">
+          <div class="row"><span class="lbl">Direction:</span><select id="flexDir" onchange="updateFlex()"><option>row</option><option>column</option><option>row-reverse</option></select></div>
+          <div class="row"><span class="lbl">Justify:</span><select id="flexJust" onchange="updateFlex()"><option>flex-start</option><option>center</option><option>space-between</option><option>space-around</option><option>space-evenly</option></select></div>
+          <div class="row"><span class="lbl">Align:</span><select id="flexAlign" onchange="updateFlex()"><option>stretch</option><option>center</option><option>flex-start</option><option>flex-end</option></select></div>
+          <div class="row"><span class="lbl">Wrap:</span><select id="flexWrap" onchange="updateFlex()"><option>nowrap</option><option>wrap</option></select></div>
+          <div id="flexBox" style="background:#0A0A18;border:1px solid var(--border);border-radius:4px;min-height:120px;padding:8px;display:flex;gap:8px;margin-top:0.5rem;transition:all 0.3s;">
+            <div style="background:rgba(228,77,38,0.3);border:1px solid var(--html);border-radius:3px;padding:12px 16px;color:var(--html);font-family:var(--mono);font-size:0.7rem;">Item 1</div>
+            <div style="background:rgba(38,77,228,0.3);border:1px solid var(--css);border-radius:3px;padding:12px 16px;color:var(--css);font-family:var(--mono);font-size:0.7rem;">Item 2</div>
+            <div style="background:rgba(247,223,30,0.2);border:1px solid var(--js);border-radius:3px;padding:12px 16px;color:var(--js);font-family:var(--mono);font-size:0.7rem;">Item 3</div>
+            <div style="background:rgba(97,218,251,0.1);border:1px solid var(--react);border-radius:3px;padding:12px 16px;color:var(--react);font-family:var(--mono);font-size:0.7rem;">Item 4</div>
+          </div>
+          <div class="out-box" id="flexCSS" style="margin-top:0.5rem;">>>> Adjust controls above to see CSS</div>
+        </div>
+        <div class="tc" id="grid-tab">
+          <div class="row"><span class="lbl">Columns:</span><select id="gridCols" onchange="updateGrid()"><option value="repeat(2,1fr)">2 columns</option><option value="repeat(3,1fr)" selected>3 columns</option><option value="repeat(4,1fr)">4 columns</option><option value="repeat(auto-fit,minmax(120px,1fr))">auto-fit</option></select></div>
+          <div class="row"><span class="lbl">Gap:</span><select id="gridGap" onchange="updateGrid()"><option>4px</option><option selected>12px</option><option>24px</option></select></div>
+          <div id="gridBox" style="background:#0A0A18;border:1px solid var(--border);border-radius:4px;padding:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:0.5rem;transition:all 0.3s;"></div>
+          <div class="out-box" id="gridCSS" style="margin-top:0.5rem;">>>> Adjust controls above to see CSS</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--css);">📄 CSS Layouts Code</div>
+      <div class="pb">
+<div class="ch"><span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span><span style="margin-left:7px;">layouts.css</span></div>
+<div class="code"><span class="cm">/* FLEXBOX — 1D layout */</span>
+.container {
+  <span class="atr">display</span>: <span class="fn">flex</span>;
+  <span class="atr">gap</span>: <span class="num">1rem</span>;
+  <span class="atr">justify-content</span>: space-between; <span class="cm">/* main axis */</span>
+  <span class="atr">align-items</span>: center;            <span class="cm">/* cross axis */</span>
+  <span class="atr">flex-wrap</span>: wrap;                <span class="cm">/* allow wrapping */</span>
+}
+.flex-item { <span class="atr">flex</span>: <span class="num">1 1 200px</span>; } <span class="cm">/* grow shrink basis */</span>
+
+<span class="cm">/* CSS GRID — 2D layout */</span>
+.grid {
+  <span class="atr">display</span>: <span class="fn">grid</span>;
+  <span class="atr">grid-template-columns</span>: <span class="fn">repeat</span>(auto-fit, <span class="fn">minmax</span>(<span class="num">250px</span>, <span class="num">1fr</span>));
+  <span class="atr">gap</span>: <span class="num">1.5rem</span>;
+}
+<span class="cm">/* Named grid areas */</span>
+.layout {
+  <span class="atr">display</span>: <span class="fn">grid</span>;
+  <span class="atr">grid-template-areas</span>:
+    <span class="st">"header header"</span>
+    <span class="st">"sidebar main"</span>
+    <span class="st">"footer footer"</span>;
+  <span class="atr">grid-template-columns</span>: <span class="num">250px</span> <span class="num">1fr</span>;
+}
+.header { <span class="atr">grid-area</span>: header; }
+.sidebar { <span class="atr">grid-area</span>: sidebar; }
+
+<span class="cm">/* CSS Custom Properties (Variables) */</span>
+:root {
+  --primary: <span class="num">#264DE4</span>;
+  --spacing: <span class="num">1rem</span>;
+  --radius: <span class="num">8px</span>;
+}
+.card { <span class="atr">border-radius</span>: var(--radius); }
+
+<span class="cm">/* Container Queries (modern!) */</span>
+<span class="fn">@container</span> (min-width: 400px) {
+  .card { <span class="atr">flex-direction</span>: row; }
+}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ANIMATIONS -->
+<div class="mod" id="w-animations">
+  <div class="mod-hdr"><div><div class="mod-title">CSS Animations & Effects</div><div class="mod-sub">// transitions · keyframes · transforms · custom properties · GPU acceleration</div></div><span class="badge-sm badge-css">CSS ANIMATIONS</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--css);">⚡ Animation Playground</div>
+      <div class="pb">
+        <div class="btns">
+          <button class="btn btn-css" onclick="playAnim('bounce')">BOUNCE</button>
+          <button class="btn btn-html" onclick="playAnim('spin')">SPIN</button>
+          <button class="btn btn-js" onclick="playAnim('pulse')">PULSE</button>
+          <button class="btn btn-react" onclick="playAnim('slide')">SLIDE IN</button>
+          <button class="btn btn-g" onclick="playAnim('gradient')">GRADIENT</button>
+        </div>
+        <div style="background:#0A0A18;border:1px solid var(--border);border-radius:5px;height:180px;display:flex;align-items:center;justify-content:center;">
+          <div id="animBox" style="width:80px;height:80px;background:linear-gradient(135deg,var(--css),var(--react));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all 0.3s;">🎨</div>
+        </div>
+        <style id="animStyle"></style>
+        <div class="out-box" id="animOut" style="margin-top:0.75rem;">>>> Click an animation to see the CSS keyframes</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--css);">📄 CSS Animation Code</div>
+      <div class="pb">
+<div class="code"><span class="cm">/* CSS Transitions */</span>
+.button {
+  <span class="atr">background</span>: var(--primary);
+  <span class="atr">transition</span>: <span class="fn">all</span> <span class="num">0.3s</span> cubic-bezier(<span class="num">0.4</span>,<span class="num">0</span>,<span class="num">0.2</span>,<span class="num">1</span>);
+}
+.button:hover {
+  <span class="atr">transform</span>: <span class="fn">translateY</span>(<span class="num">-2px</span>) <span class="fn">scale</span>(<span class="num">1.02</span>);
+  <span class="atr">box-shadow</span>: <span class="num">0 8px 25px</span> rgba(<span class="num">0,0,0,0.2</span>);
+}
+
+<span class="cm">/* Keyframe Animation */</span>
+<span class="fn">@keyframes</span> bounceIn {
+  <span class="num">0%</span>   { <span class="atr">transform</span>: <span class="fn">scale</span>(<span class="num">0</span>); <span class="atr">opacity</span>: <span class="num">0</span>; }
+  <span class="num">60%</span>  { <span class="atr">transform</span>: <span class="fn">scale</span>(<span class="num">1.1</span>); }
+  <span class="num">80%</span>  { <span class="atr">transform</span>: <span class="fn">scale</span>(<span class="num">0.95</span>); }
+  <span class="num">100%</span> { <span class="atr">transform</span>: <span class="fn">scale</span>(<span class="num">1</span>); <span class="atr">opacity</span>: <span class="num">1</span>; }
+}
+.animate { <span class="atr">animation</span>: bounceIn <span class="num">0.6s</span> ease forwards; }
+
+<span class="cm">/* CSS Custom Property Animation */</span>
+<span class="fn">@keyframes</span> gradientShift {
+  <span class="num">0%,100%</span> { <span class="atr">--angle</span>: <span class="num">0deg</span>; }
+  <span class="num">50%</span>     { <span class="atr">--angle</span>: <span class="num">360deg</span>; }
+}
+.gradient-bg {
+  <span class="atr">background</span>: <span class="fn">conic-gradient</span>(from var(--angle), #264DE4, #F7DF1E, #61DAFB);
+  <span class="atr">animation</span>: gradientShift <span class="num">3s</span> linear infinite;
+}
+
+<span class="cm">/* GPU-accelerated (only transform/opacity) */</span>
+<span class="cm">/* ✓ transform: translate/scale/rotate */</span>
+<span class="cm">/* ✓ opacity changes */</span>
+<span class="cm">/* ✗ width/height/margin (causes reflow) */</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESPONSIVE -->
+<div class="mod" id="w-responsive">
+  <div class="mod-hdr"><div><div class="mod-title">Responsive Design</div><div class="mod-sub">// mobile-first · media queries · fluid typography · viewport units</div></div><span class="badge-sm badge-css">RESPONSIVE</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--css);">📱 Viewport Simulator</div>
+      <div class="pb">
+        <div class="btns">
+          <button class="btn btn-react" onclick="setViewport('mobile')">📱 MOBILE 375px</button>
+          <button class="btn btn-css" onclick="setViewport('tablet')">📟 TABLET 768px</button>
+          <button class="btn btn-html" onclick="setViewport('desktop')">🖥 DESKTOP 1280px</button>
+        </div>
+        <div id="viewportLabel" style="font-family:var(--mono);font-size:0.7rem;color:var(--react);margin-bottom:0.5rem;">Current: Desktop (1280px)</div>
+        <div style="background:#0A0A18;border:1px solid var(--border);border-radius:5px;padding:8px;overflow:hidden;">
+          <div id="viewportBox" style="background:#fff;border-radius:3px;width:100%;transition:all 0.5s;overflow:hidden;">
+            <div id="respContent" style="padding:12px;font-family:Arial;font-size:13px;color:#1a1a2e;">
+              <div style="background:#264DE4;color:white;padding:8px 12px;border-radius:3px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-weight:bold;">🌐 MyWebsite</span>
+                <span id="navLinks">Home · About · Services · Contact</span>
+              </div>
+              <div id="contentGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                <div style="background:#f0f4ff;border-radius:3px;padding:12px;text-align:center;">Card 1</div>
+                <div style="background:#f0f4ff;border-radius:3px;padding:12px;text-align:center;">Card 2</div>
+                <div style="background:#f0f4ff;border-radius:3px;padding:12px;text-align:center;">Card 3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="out-box" id="respOut" style="margin-top:0.75rem;">>>> Switch viewport to see responsive behavior</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--css);">📄 Responsive Code</div>
+      <div class="pb">
+<div class="code"><span class="cm">/* Mobile-First Approach */</span>
+
+<span class="cm">/* Base styles = mobile */</span>
+.container { <span class="atr">padding</span>: <span class="num">1rem</span>; }
+.grid { <span class="atr">grid-template-columns</span>: <span class="num">1fr</span>; }
+.nav-links { <span class="atr">display</span>: none; } <span class="cm">/* hidden mobile */</span>
+
+<span class="cm">/* Tablet ≥ 768px */</span>
+<span class="fn">@media</span> (min-width: <span class="num">768px</span>) {
+  .grid { <span class="atr">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">2</span>, <span class="num">1fr</span>); }
+  .nav-links { <span class="atr">display</span>: flex; <span class="atr">gap</span>: <span class="num">1rem</span>; }
+}
+
+<span class="cm">/* Desktop ≥ 1024px */</span>
+<span class="fn">@media</span> (min-width: <span class="num">1024px</span>) {
+  .container { <span class="atr">max-width</span>: <span class="num">1200px</span>; <span class="atr">margin</span>: <span class="num">0</span> auto; }
+  .grid { <span class="atr">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">3</span>, <span class="num">1fr</span>); }
+}
+
+<span class="cm">/* Fluid Typography */</span>
+h1 {
+  <span class="atr">font-size</span>: <span class="fn">clamp</span>(<span class="num">1.5rem</span>, <span class="num">5vw</span>, <span class="num">3rem</span>);
+}
+
+<span class="cm">/* Responsive images */</span>
+img {
+  <span class="atr">max-width</span>: <span class="num">100%</span>;
+  <span class="atr">height</span>: auto;
+}
+<span class="tag-c">&lt;img</span> <span class="atr">srcset</span>=<span class="st">"img-400.jpg 400w, img-800.jpg 800w"</span>
+     <span class="atr">sizes</span>=<span class="st">"(max-width: 600px) 400px, 800px"</span><span class="tag-c">&gt;</span>
+
+<span class="cm">/* Modern: Container Queries */</span>
+.card-container { <span class="atr">container-type</span>: inline-size; }
+<span class="fn">@container</span> (min-width: <span class="num">350px</span>) {
+  .card { <span class="atr">flex-direction</span>: row; }
+}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<div class="mod" id="w-js">
+  <div class="mod-hdr"><div><div class="mod-title">JavaScript ES2024 Features</div><div class="mod-sub">// arrow functions · destructuring · spread · async/await · optional chaining</div></div><span class="badge-sm badge-js">ES2024</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--js);">⚡ JS Playground</div>
+      <div class="pb">
+        <div class="info"><strong>LIVE JS:</strong> Click to run JavaScript concepts live in the browser.</div>
+        <div class="btns">
+          <button class="btn btn-js" onclick="runJS('destruct')">DESTRUCTURING</button>
+          <button class="btn btn-js" onclick="runJS('spread')">SPREAD/REST</button>
+          <button class="btn btn-js" onclick="runJS('optional')">OPTIONAL CHAIN</button>
+          <button class="btn btn-js" onclick="runJS('nullish')">NULLISH COAL</button>
+          <button class="btn btn-js" onclick="runJS('promise')">PROMISES</button>
+        </div>
+        <div class="out-box" id="jsOut" style="min-height:160px;">>>> Select a concept to see output</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--js);">📄 Modern JavaScript</div>
+      <div class="pb">
+<div class="code"><span class="cm">// ES2024 Modern JavaScript</span>
+
+<span class="cm">// Destructuring</span>
+<span class="kw">const</span> { name, age = <span class="num">18</span>, ...rest } = user;
+<span class="kw">const</span> [first, second, ...others] = arr;
+<span class="kw">const</span> { a: { b } } = nested; <span class="cm">// deep</span>
+
+<span class="cm">// Spread & Rest</span>
+<span class="kw">const</span> merged = { ...defaults, ...userConfig };
+<span class="kw">const</span> copy   = [...original, newItem];
+<span class="kw">const</span> <span class="fn">sum</span> = (...nums) => nums.<span class="fn">reduce</span>((a,b)=>a+b,<span class="num">0</span>);
+
+<span class="cm">// Optional Chaining & Nullish Coalescing</span>
+<span class="kw">const</span> city = user?.address?.city ?? <span class="st">"Unknown"</span>;
+<span class="kw">const</span> len = str?.<span class="fn">length</span> ?? <span class="num">0</span>;
+
+<span class="cm">// Array methods (ES2023/2024)</span>
+arr.<span class="fn">at</span>(-<span class="num">1</span>);                      <span class="cm">// last element</span>
+arr.<span class="fn">findLast</span>(x => x > <span class="num">10</span>);      <span class="cm">// findLast</span>
+arr.<span class="fn">toSorted</span>();                   <span class="cm">// immutable sort</span>
+arr.<span class="fn">toSpliced</span>(<span class="num">1</span>, <span class="num">1</span>, <span class="st">'new'</span>);      <span class="cm">// immutable splice</span>
+<span class="cls">Object</span>.<span class="fn">groupBy</span>(arr, x => x.type); <span class="cm">// group (2024)</span>
+
+<span class="cm">// Template Literals</span>
+<span class="kw">const</span> html = <span class="st">`
+  &lt;div class="card"&gt;
+    &lt;h2&gt;${title}&lt;/h2&gt;
+    &lt;p&gt;${<span class="fn">truncate</span>(body, <span class="num">100</span>)}&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;
+
+<span class="cm">// Modules</span>
+<span class="kw">export default</span> <span class="kw">function</span> <span class="fn">Component</span>() {}
+<span class="kw">export const</span> utils = { format, parse };
+<span class="kw">import</span> Component, { utils } <span class="kw">from</span> <span class="st">'./module.js'</span>;</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOM -->
+<div class="mod" id="w-dom">
+  <div class="mod-hdr"><div><div class="mod-title">DOM Manipulation</div><div class="mod-sub">// querySelector · events · classList · dataset · MutationObserver</div></div><span class="badge-sm badge-js">DOM API</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--js);">⚡ DOM Playground</div>
+      <div class="pb">
+        <div id="domPlayground" style="background:#fff;border-radius:5px;padding:1rem;min-height:120px;">
+          <h3 id="domTitle" style="color:#1a1a2e;font-family:Arial;font-size:1.1rem;margin-bottom:8px;">DOM Example</h3>
+          <p id="domPara" style="color:#475569;font-family:Arial;font-size:0.85rem;">Click buttons to manipulate this element!</p>
+          <div id="domList" style="margin-top:8px;"></div>
+        </div>
+        <div class="btns" style="margin-top:0.75rem;">
+          <button class="btn btn-js" onclick="domOp('change')">CHANGE TEXT</button>
+          <button class="btn btn-html" onclick="domOp('style')">CHANGE STYLE</button>
+          <button class="btn btn-css" onclick="domOp('add')">ADD ELEMENT</button>
+          <button class="btn btn-react" onclick="domOp('remove')">REMOVE LAST</button>
+          <button class="btn btn-g" onclick="domOp('event')">ADD EVENT</button>
+        </div>
+        <div class="out-box" id="domOut" style="min-height:50px;">>>> Click to manipulate the DOM</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--js);">📄 DOM Manipulation Code</div>
+      <div class="pb">
+<div class="code"><span class="cm">// Selecting Elements</span>
+<span class="kw">const</span> el  = document.<span class="fn">querySelector</span>(<span class="st">'.card'</span>);
+<span class="kw">const</span> els = document.<span class="fn">querySelectorAll</span>(<span class="st">'li'</span>);
+
+<span class="cm">// Modifying</span>
+el.textContent = <span class="st">'New text'</span>;         <span class="cm">// safe (no XSS)</span>
+el.innerHTML   = <span class="st">'&lt;b&gt;Bold&lt;/b&gt;'</span>;     <span class="cm">// ⚠ sanitize!</span>
+el.classList.<span class="fn">add</span>(<span class="st">'active'</span>);
+el.classList.<span class="fn">toggle</span>(<span class="st">'dark'</span>);
+el.classList.<span class="fn">replace</span>(<span class="st">'old'</span>, <span class="st">'new'</span>);
+el.dataset.userId = <span class="st">'42'</span>;            <span class="cm">// data-user-id</span>
+el.style.setProperty(<span class="st">'--color'</span>, <span class="st">'red'</span>);
+
+<span class="cm">// Creating Elements</span>
+<span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="st">'li'</span>);
+li.textContent = <span class="st">'New item'</span>;
+ul.<span class="fn">append</span>(li);      <span class="cm">// end</span>
+ul.<span class="fn">prepend</span>(li);     <span class="cm">// beginning</span>
+li.<span class="fn">remove</span>();        <span class="cm">// remove self</span>
+
+<span class="cm">// Event Delegation (efficient!)</span>
+document.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, (e) => {
+  <span class="kw">if</span> (e.target.<span class="fn">matches</span>(<span class="st">'.btn'</span>)) {
+    <span class="fn">handleClick</span>(e.target.dataset.id);
+  }
+});
+
+<span class="cm">// Intersection Observer (lazy load)</span>
+<span class="kw">const</span> observer = <span class="kw">new</span> <span class="fn">IntersectionObserver</span>(entries => {
+  entries.<span class="fn">forEach</span>(e => {
+    <span class="kw">if</span> (e.isIntersecting) img.src = img.dataset.src;
+  });
+}, { threshold: <span class="num">0.1</span> });</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ASYNC -->
+<div class="mod" id="w-async">
+  <div class="mod-hdr"><div><div class="mod-title">Async JavaScript & Fetch API</div><div class="mod-sub">// Promise · async/await · fetch · error handling · loading states</div></div><span class="badge-sm badge-js">ASYNC JS</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--js);">⚡ Async Simulator</div>
+      <div class="pb">
+        <div class="info"><strong>FETCH API:</strong> Simulate API calls with different scenarios — success, error, loading states.</div>
+        <div class="btns">
+          <button class="btn btn-js" onclick="simAsync('fetch')">FETCH DATA</button>
+          <button class="btn btn-react" onclick="simAsync('parallel')">PARALLEL FETCH</button>
+          <button class="btn btn-html" onclick="simAsync('error')">HANDLE ERRORS</button>
+          <button class="btn btn-g" onclick="simAsync('retry')">RETRY LOGIC</button>
+        </div>
+        <div class="out-box" id="asyncOut" style="min-height:160px;">>>> Click to simulate async operations</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--js);">📄 Async/Await & Fetch</div>
+      <div class="pb">
+<div class="code"><span class="cm">// Modern async/await pattern</span>
+<span class="kw">async function</span> <span class="fn">fetchUser</span>(id) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> resp = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">`/api/users/${id}`</span>, {
+      method: <span class="st">'GET'</span>,
+      headers: { <span class="st">'Authorization'</span>: <span class="st">`Bearer ${token}`</span> }
+    });
+    <span class="kw">if</span> (!resp.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="st">`HTTP ${resp.status}`</span>);
+    <span class="kw">return await</span> resp.<span class="fn">json</span>();
+  } <span class="kw">catch</span> (err) {
+    console.<span class="fn">error</span>(<span class="st">'Fetch failed:'</span>, err);
+    <span class="kw">throw</span> err;
+  }
+}
+
+<span class="cm">// Parallel requests (faster!)</span>
+<span class="kw">const</span> [users, posts, comments] = <span class="kw">await</span> <span class="cls">Promise</span>.<span class="fn">all</span>([
+  <span class="fn">fetch</span>(<span class="st">'/api/users'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>()),
+  <span class="fn">fetch</span>(<span class="st">'/api/posts'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>()),
+  <span class="fn">fetch</span>(<span class="st">'/api/comments'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>()),
+]);
+
+<span class="cm">// AbortController (cancel requests)</span>
+<span class="kw">const</span> ctrl = <span class="kw">new</span> <span class="fn">AbortController</span>();
+<span class="fn">fetch</span>(url, { signal: ctrl.signal });
+<span class="kw">setTimeout</span>(() => ctrl.<span class="fn">abort</span>(), <span class="num">5000</span>); <span class="cm">// 5s timeout</span>
+
+<span class="cm">// Retry with exponential backoff</span>
+<span class="kw">async function</span> <span class="fn">fetchWithRetry</span>(url, tries=<span class="num">3</span>) {
+  <span class="kw">for</span> (<span class="kw">let</span> i=<span class="num">0</span>; i&lt;tries; i++) {
+    <span class="kw">try</span> { <span class="kw">return await</span> <span class="fn">fetch</span>(url).<span class="fn">then</span>(r=>r.<span class="fn">json</span>()); }
+    <span class="kw">catch</span>(e) {
+      <span class="kw">if</span> (i===tries-<span class="num">1</span>) <span class="kw">throw</span> e;
+      <span class="kw">await new</span> <span class="cls">Promise</span>(res=><span class="fn">setTimeout</span>(res, <span class="num">2**i</span>*<span class="num">1000</span>));
+    }
+  }
+}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REACT -->
+<div class="mod" id="w-react">
+  <div class="mod-hdr"><div><div class="mod-title">React & Hooks</div><div class="mod-sub">// useState · useEffect · useCallback · custom hooks · component patterns</div></div><span class="badge-sm badge-react">REACT 19</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--react);">⚡ React Hooks Simulator</div>
+      <div class="pb">
+        <div class="info"><strong>REACT:</strong> See how hooks manage state and side effects in functional components.</div>
+        <div class="btns">
+          <button class="btn btn-react" onclick="reactDemo('counter')">COUNTER (useState)</button>
+          <button class="btn btn-css" onclick="reactDemo('todo')">TODO (useReducer)</button>
+          <button class="btn btn-js" onclick="reactDemo('fetch')">DATA FETCH (useEffect)</button>
+          <button class="btn btn-html" onclick="reactDemo('custom')">CUSTOM HOOK</button>
+        </div>
+        <div style="background:#0A0A18;border:1px solid var(--border);border-radius:5px;padding:1rem;min-height:120px;" id="reactDemo"></div>
+        <div class="out-box" id="reactOut" style="margin-top:0.75rem;">>>> Select a React demo</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--react);">📄 React Code</div>
+      <div class="pb">
+<div class="code"><span class="cm">// React 19 — Modern patterns</span>
+<span class="kw">import</span> { useState, useEffect, useCallback, useMemo } <span class="kw">from</span> <span class="st">'react'</span>;
+
+<span class="cm">// Custom Hook — reusable logic</span>
+<span class="kw">function</span> <span class="fn">useFetch</span>(url) {
+  <span class="kw">const</span> [data, setData] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>);
+  <span class="kw">const</span> [error, setError] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">let</span> cancelled = <span class="kw">false</span>;
+    <span class="fn">fetch</span>(url)
+      .<span class="fn">then</span>(r => r.<span class="fn">json</span>())
+      .<span class="fn">then</span>(d => !cancelled && <span class="fn">setData</span>(d))
+      .<span class="fn">catch</span>(e => !cancelled && <span class="fn">setError</span>(e))
+      .<span class="fn">finally</span>(() => !cancelled && <span class="fn">setLoading</span>(<span class="kw">false</span>));
+    <span class="kw">return</span> () => { cancelled = <span class="kw">true</span>; }; <span class="cm">// cleanup</span>
+  }, [url]);
+
+  <span class="kw">return</span> { data, loading, error };
+}
+
+<span class="cm">// Component</span>
+<span class="kw">function</span> <span class="fn">UserList</span>() {
+  <span class="kw">const</span> { data, loading, error } = <span class="fn">useFetch</span>(<span class="st">'/api/users'</span>);
+  <span class="kw">const</span> [filter, setFilter] = <span class="fn">useState</span>(<span class="st">''</span>);
+  
+  <span class="kw">const</span> filtered = <span class="fn">useMemo</span>(() =>
+    data?.<span class="fn">filter</span>(u => u.name.<span class="fn">includes</span>(filter)),
+    [data, filter]); <span class="cm">// only recomputes when deps change</span>
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> &lt;<span class="cls">Spinner</span> /&gt;;
+  <span class="kw">if</span> (error)   <span class="kw">return</span> &lt;<span class="cls">Error</span> message={error.message} /&gt;;
+  
+  <span class="kw">return</span> (
+    &lt;<span class="tag-c">div</span>&gt;
+      &lt;<span class="tag-c">input</span> value={filter} <span class="atr">onChange</span>={e =&gt; <span class="fn">setFilter</span>(e.target.value)} /&gt;
+      {filtered.<span class="fn">map</span>(u => &lt;<span class="cls">UserCard</span> key={u.id} user={u} /&gt;)}
+    &lt;/<span class="tag-c">div</span>&gt;
+  );
+}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="mod" id="w-quiz">
+  <div class="mod-hdr"><div><div class="mod-title">Web Development Quiz</div><div class="mod-sub">// 10 questions covering HTML · CSS · JavaScript · React</div></div><span class="badge-sm badge-react">ASSESSMENT</span></div>
+  <div class="g2">
+    <div class="panel">
+      <div class="ph" style="color:var(--react);">🎯 Web Dev Quiz</div>
+      <div class="pb">
+        <div id="wQuizArea"></div>
+        <div class="btns" style="margin-top:1rem;">
+          <button class="btn btn-react" onclick="wNextQ()">NEXT →</button>
+          <button class="btn btn-p" onclick="wResetQuiz()">RESTART</button>
+        </div>
+        <div style="margin-top:1rem;">
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:0.68rem;color:var(--text-dim);margin-bottom:4px;"><span>PROGRESS</span><span id="wQProg">0/10</span></div>
+          <div class="score-bar"><div class="score-fill" id="wScoreFill" style="width:0%;"></div></div>
+        </div>
+        <div class="stats" style="margin-top:1rem;">
+          <div class="stat"><div class="sv" id="wQC">0</div><div class="sl">Correct</div></div>
+          <div class="stat"><div class="sv" style="color:var(--pink);" id="wQW">0</div><div class="sl">Wrong</div></div>
+          <div class="stat"><div class="sv" id="wQPct">0%</div><div class="sl">Score</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph" style="color:var(--react);">📊 Skill Coverage</div>
+      <div class="pb">
+        <canvas id="webRadar" width="380" height="280" style="width:100%;background:#0A0A18;border:1px solid var(--border);border-radius:5px;display:block;"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="li-banner">
+  <h3>🌐 Share Your Web Dev Journey!</h3>
+  <p>Built interactive demos covering HTML5 · CSS Flexbox/Grid · JavaScript ES2024 · React Hooks · Responsive Design · Async APIs</p>
+  <div class="tags" style="justify-content:center;">
+    <span class="tag">#WebDevelopment</span><span class="tag">#HTML</span><span class="tag">#CSS</span><span class="tag">#JavaScript</span>
+    <span class="tag">#ReactJS</span><span class="tag">#Frontend</span><span class="tag">#FullStack</span><span class="tag">#WebDesign</span>
+  </div>
+</div>
+</main>
+</div>
+
+<script>
+function showW(id){document.querySelectorAll('.mod').forEach(m=>m.classList.remove('active'));document.querySelectorAll('.s-item').forEach(n=>n.classList.remove('active'));document.getElementById('w-'+id).classList.add('active');event.currentTarget.classList.add('active');if(id==='css'){updateFlex();updateGrid();}if(id==='quiz'){wInitQuiz();drawWebRadar();}if(id==='animations'){}if(id==='dom'){buildDomList();};}
+function swW(el,tid){const pb=el.closest('.pb');pb.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));pb.querySelectorAll('.tc').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.getElementById(tid).classList.add('active');if(tid==='grid-tab')updateGrid();}
+
+// HTML
+function runHTML(){const html=document.getElementById('htmlEditor').value;const frame=document.getElementById('htmlPreview');frame.srcdoc=html;const tags=(html.match(/<\w+/g)||[]).length;document.getElementById('htmlOut').textContent=`>>> HTML Preview rendered!\nTags found: ${tags}\nPage title: ${html.match(/<title>(.*?)<\/title>/)?.[1]||'(no title)'}\n✓ Displaying in iframe sandbox`;}
+function checkHTML(){const html=document.getElementById('htmlEditor').value;const issues=[];if(!html.includes('<!DOCTYPE'))issues.push('⚠ Missing <!DOCTYPE html>');if(!html.includes('lang='))issues.push('⚠ Missing lang attribute on <html>');if(!html.includes('<title>'))issues.push('⚠ Missing <title> tag');if(!html.includes('<main>'))issues.push('ℹ Consider adding <main> for semantics');document.getElementById('htmlOut').textContent=issues.length?issues.join('\n'):`✓ HTML looks good!\n✓ ${(html.match(/<\w+/g)||[]).length} tags found\n✓ Semantic structure detected`;}
+
+// FORMS
+function buildForm(type){
+  const forms={
+    signup:`<form onsubmit="submitForm(event)" style="font-family:Arial;max-width:300px;">
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:12px;color:#475569;margin-bottom:3px;">Full Name *</label><input type="text" required minlength="2" maxlength="50" placeholder="John Smith" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:12px;color:#475569;margin-bottom:3px;">Email *</label><input type="email" required placeholder="john@example.com" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:12px;color:#475569;margin-bottom:3px;">Password *</label><input type="password" required minlength="8" placeholder="Min 8 characters" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:12px;color:#475569;margin-bottom:3px;">Birth Date</label><input type="date" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <button type="submit" style="background:#264DE4;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:13px;width:100%;">Create Account</button>
+    </form>`,
+    login:`<form onsubmit="submitForm(event)" style="font-family:Arial;max-width:300px;">
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:12px;color:#475569;margin-bottom:3px;">Email *</label><input type="email" required placeholder="your@email.com" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:12px;color:#475569;margin-bottom:3px;">Password *</label><input type="password" required placeholder="Password" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <button type="submit" style="background:#E44D26;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:13px;width:100%;">Sign In</button>
+    </form>`,
+    contact:`<form onsubmit="submitForm(event)" style="font-family:Arial;max-width:300px;">
+      <div style="margin-bottom:8px;"><input type="text" required placeholder="Your Name *" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <div style="margin-bottom:8px;"><input type="email" required placeholder="Email *" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <div style="margin-bottom:8px;"><input type="tel" placeholder="Phone" pattern="[0-9]{10}" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;"/></div>
+      <div style="margin-bottom:8px;"><textarea required rows="4" placeholder="Your message *" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;resize:vertical;"></textarea></div>
+      <button type="submit" style="background:#61DAFB;color:#000;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:13px;width:100%;">Send Message</button>
+    </form>`
+  };
+  document.getElementById('liveForm').innerHTML=forms[type];
+}
+function submitForm(e){e.preventDefault();document.getElementById('formOut').textContent='>>> Form submitted successfully!\n✓ All validation passed\n✓ In production: data would be sent via fetch()\n✓ FormData would serialize all field values';}
+
+// CSS FLEXBOX
+function updateFlex(){
+  const dir=document.getElementById('flexDir')?.value||'row';const just=document.getElementById('flexJust')?.value||'flex-start';const align=document.getElementById('flexAlign')?.value||'stretch';const wrap=document.getElementById('flexWrap')?.value||'nowrap';
+  const box=document.getElementById('flexBox');if(!box)return;
+  box.style.flexDirection=dir;box.style.justifyContent=just;box.style.alignItems=align;box.style.flexWrap=wrap;
+  document.getElementById('flexCSS').textContent=`.container {\n  display: flex;\n  flex-direction: ${dir};\n  justify-content: ${just};\n  align-items: ${align};\n  flex-wrap: ${wrap};\n  gap: 8px;\n}`;
+}
+function updateGrid(){
+  const cols=document.getElementById('gridCols')?.value||'repeat(3,1fr)';const gap=document.getElementById('gridGap')?.value||'12px';
+  const box=document.getElementById('gridBox');if(!box)return;
+  box.style.gridTemplateColumns=cols;box.style.gap=gap;
+  if(!box.children.length){['#E44D26','#264DE4','#F7DF1E','#61DAFB','#FF4081','#00E676'].forEach((c,i)=>{const d=document.createElement('div');d.style.cssText=`background:${c}20;border:1px solid ${c};border-radius:3px;padding:12px;color:${c};font-family:var(--mono);font-size:0.7rem;text-align:center;`;d.textContent=`Item ${i+1}`;box.appendChild(d);});}
+  document.getElementById('gridCSS').textContent=`.grid {\n  display: grid;\n  grid-template-columns: ${cols};\n  gap: ${gap};\n}`;
+}
+
+// ANIMATIONS
+function playAnim(type){
+  const box=document.getElementById('animBox');if(!box)return;
+  const anims={
+    bounce:{css:`@keyframes aBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-30px);}}`,anim:'aBounce 0.8s ease infinite',out:'Bounce animation: translateY oscillation'},
+    spin:{css:`@keyframes aSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}`,anim:'aSpin 1s linear infinite',out:'Spin: rotate(0→360deg), linear timing'},
+    pulse:{css:`@keyframes aPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.2);opacity:0.7;}}`,anim:'aPulse 1s ease-in-out infinite',out:'Pulse: scale + opacity oscillation'},
+    slide:{css:`@keyframes aSlide{from{transform:translateX(-100px);opacity:0;}to{transform:translateX(0);opacity:1;}}`,anim:'aSlide 0.5s ease forwards',out:'Slide-in from left with opacity fade'},
+    gradient:{css:`@keyframes aGrad{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(360deg);}}`,anim:'aGrad 2s linear infinite',out:'Gradient hue rotation animation'}
+  };
+  const a=anims[type];document.getElementById('animStyle').textContent=a.css;box.style.animation=a.anim;
+  document.getElementById('animOut').textContent=`>>> ${a.out}\n\n.element {\n  animation: ${a.anim};\n}\n\n${a.css}`;
+}
+
+// RESPONSIVE
+function setViewport(size){
+  const box=document.getElementById('viewportBox');const nav=document.getElementById('navLinks');const grid=document.getElementById('contentGrid');const label=document.getElementById('viewportLabel');
+  if(size==='mobile'){box.style.maxWidth='375px';box.style.margin='0 auto';nav.innerHTML='☰';grid.style.gridTemplateColumns='1fr';label.textContent='Current: Mobile (375px)';document.getElementById('respOut').textContent='>>> Mobile layout:\n• Nav collapsed to hamburger\n• Cards stacked 1 column\n• Optimized for touch';}
+  else if(size==='tablet'){box.style.maxWidth='768px';box.style.margin='0 auto';nav.innerHTML='Home · About · Contact';grid.style.gridTemplateColumns='1fr 1fr';label.textContent='Current: Tablet (768px)';document.getElementById('respOut').textContent='>>> Tablet layout:\n• Nav shows main items\n• Cards in 2-column grid\n• @media (min-width: 768px)';}
+  else{box.style.maxWidth='100%';nav.innerHTML='Home · About · Services · Contact';grid.style.gridTemplateColumns='1fr 1fr 1fr';label.textContent='Current: Desktop (1280px)';document.getElementById('respOut').textContent='>>> Desktop layout:\n• Full navigation visible\n• 3-column card grid\n• @media (min-width: 1024px)';}
+}
+
+// JS PLAYGROUND
+const jsOutputs={
+  destruct:`// Destructuring
+const user = { name: 'Alice', age: 25, city: 'NYC', role: 'dev' };
+
+// Object destructuring with default
+const { name, age, country = 'USA', ...rest } = user;
+// name = 'Alice'
+// age  = 25
+// country = 'USA' (default)
+// rest = { city: 'NYC', role: 'dev' }
+
+// Array destructuring
+const [first, , third, ...others] = [1,2,3,4,5];
+// first = 1,  third = 3,  others = [4,5]
+
+// Swap without temp variable:
+let a = 1, b = 2;
+[a, b] = [b, a];
+// a = 2, b = 1 ✓`,
+  spread:`// Spread & Rest
+const arr1 = [1,2,3];
+const arr2 = [4,5,6];
+
+// Spread — expand array
+const combined = [...arr1, ...arr2]; // [1,2,3,4,5,6]
+const copy = [...arr1];              // shallow copy
+
+// Merge objects
+const defaults = { theme: 'dark', lang: 'en', size: 'md' };
+const userPrefs = { theme: 'light', size: 'lg' };
+const config = { ...defaults, ...userPrefs };
+// { theme:'light', lang:'en', size:'lg' }
+// userPrefs values OVERRIDE defaults ↑
+
+// Rest in functions
+const sum = (...nums) => nums.reduce((a,b) => a+b, 0);
+sum(1,2,3,4,5); // → 15`,
+  optional:`// Optional Chaining & Nullish Coalescing
+const user = { address: { city: 'Mumbai', zip: '400001' } };
+const noAddress = {};
+
+// Without optional chaining (crashes!):
+// noAddress.address.city → TypeError!
+
+// With optional chaining:
+const city1 = user?.address?.city;     // 'Mumbai'
+const city2 = noAddress?.address?.city; // undefined (no crash!)
+
+// Nullish coalescing (??) — only null/undefined
+const city = noAddress?.address?.city ?? 'Unknown';
+// → 'Unknown'
+
+// ?? vs || 
+0 || 'default'  // → 'default' (0 is falsy)
+0 ?? 'default'  // → 0         (0 is not null/undefined)
+
+// Optional method call
+arr?.forEach(item => console.log(item));`,
+  nullish:`// Nullish Coalescing & Logical Assignment
+const a = null ?? 'hello';      // 'hello'
+const b = undefined ?? 'world'; // 'world'
+const c = 0 ?? 'zero';          // 0 (not null/undefined)
+const d = '' ?? 'empty';        // '' (not null/undefined)
+const e = false ?? 'false';     // false
+
+// Logical Assignment (ES2021)
+let x = null;
+x ??= 'default';  // x = 'default' (was null)
+
+let y = 5;
+y ??= 'default';  // y = 5 (not null/undefined)
+
+// OR assignment
+let count = 0;
+count ||= 10;  // count = 10 (0 is falsy!)
+
+// AND assignment
+let obj = { a: 1 };
+obj.b &&= 'set';  // obj.b stays undefined (b was falsy)`,
+  promise:`// Promises & Async/Await
+// Promise states: pending → fulfilled | rejected
+
+// Creating a Promise
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// Async/Await (syntactic sugar over Promises)
+async function loadData() {
+  console.log('Loading...');
+  await delay(1000);        // waits 1 second
+  return { users: 42 };    // auto-wrapped in Promise
+}
+
+// Promise.all — parallel (fastest)
+const [a, b, c] = await Promise.all([
+  fetch('/users'),   // all start simultaneously
+  fetch('/posts'),   // ← parallel execution
+  fetch('/tags'),    // takes max(t1,t2,t3) not sum
+]);
+
+// Promise.allSettled — don't fail on errors
+const results = await Promise.allSettled([p1, p2, p3]);
+results.forEach(r => {
+  if (r.status === 'fulfilled') use(r.value);
+  else logError(r.reason);
+});`
+};
+function runJS(type){document.getElementById('jsOut').textContent=jsOutputs[type]||'// Click a concept';}
+
+// DOM
+let domItems=0;
+function buildDomList(){const ul=document.getElementById('domList');if(ul)ul.innerHTML='';}
+function domOp(op){
+  const title=document.getElementById('domTitle');const para=document.getElementById('domPara');const list=document.getElementById('domList');
+  if(op==='change'){const msgs=['🎉 Text Changed!','🔥 DOM Updated!','⚡ JavaScript Power!','🚀 Dynamic Content!'];title.textContent=msgs[Math.floor(Math.random()*msgs.length)];document.getElementById('domOut').textContent='>>> el.textContent = "New text"\n>>> Safely sets text without HTML parsing\n>>> Use innerHTML only when needed (and sanitize it!)';}
+  else if(op==='style'){const colors=['#E44D26','#264DE4','#F7DF1E','#61DAFB','#FF4081','#00E676'];const c=colors[Math.floor(Math.random()*colors.length)];title.style.color=c;title.style.transform='scale(1.1)';setTimeout(()=>title.style.transform='',300);document.getElementById('domOut').textContent=`>>> el.style.color = '${c}'\n>>> el.classList.toggle('highlight')\n>>> el.style.setProperty('--color','${c}')`;}
+  else if(op==='add'){domItems++;const li=document.createElement('div');li.style.cssText=`background:rgba(97,218,251,0.1);border:1px solid rgba(97,218,251,0.3);border-radius:3px;padding:5px 10px;margin-top:4px;font-family:Arial;font-size:12px;color:#61DAFB;`;li.textContent=`• Dynamic element #${domItems}`;list.appendChild(li);document.getElementById('domOut').textContent=`>>> const el = document.createElement('div')\n>>> el.textContent = 'Element #${domItems}'\n>>> parent.append(el)  // added to end`;}
+  else if(op==='remove'){if(list.lastChild){list.removeChild(list.lastChild);document.getElementById('domOut').textContent='>>> el.remove()  // removes from DOM\n>>> parent.removeChild(lastChild)';}else{document.getElementById('domOut').textContent='>>> No elements to remove';}}
+  else if(op==='event'){title.onclick=()=>{title.style.color='#00E676';setTimeout(()=>title.style.color='',1000);};document.getElementById('domOut').textContent='>>> el.addEventListener("click", handler)\n>>> Try clicking the title text now!\n>>> Event delegation is more efficient';}
+}
+
+// ASYNC
+function simAsync(type){
+  const el=document.getElementById('asyncOut');
+  if(type==='fetch'){
+    el.textContent='>>> Initiating fetch request...\n[100ms] Request sent to /api/users\n[200ms] DNS resolution complete\n[350ms] TCP connection established\n[420ms] TLS handshake done\n[580ms] Server response received';
+    setTimeout(()=>el.textContent+='\n\n✓ Response: 200 OK\n✓ Data: [{id:1,name:"Alice"},{id:2,name:"Bob"},...]\n✓ Content-Type: application/json',1000);}
+  else if(type==='parallel'){
+    el.textContent='>>> Promise.all([users, posts, comments])\n\n[0ms]   All 3 requests fire simultaneously →\n[0ms]   → fetch(/api/users)\n[0ms]   → fetch(/api/posts)\n[0ms]   → fetch(/api/comments)';
+    setTimeout(()=>el.textContent+='\n\n[320ms] /api/users resolved ✓\n[410ms] /api/comments resolved ✓\n[480ms] /api/posts resolved ✓\n\n✓ Total: 480ms (vs 1110ms sequential!)',600);}
+  else if(type==='error'){
+    el.textContent='>>> fetch("/api/data") — Error scenario\n\n[100ms] Request sent\n[timeout] Connection refused / 500 Error';
+    setTimeout(()=>el.textContent+='\n\ntry {\n  const data = await fetch(url);\n  if (!data.ok) throw new Error(`HTTP ${data.status}`);\n  return await data.json();\n} catch(err) {\n  // err.name = "TypeError" (network)\n  // err.message = "HTTP 404" (server)\n  showErrorToast(err.message);\n}',600);}
+  else{
+    el.textContent='>>> fetchWithRetry(url, 3 attempts)\n\n[0ms]    Attempt 1 → Network error!';
+    setTimeout(()=>el.textContent+='\n[1000ms] Wait 1s (2^0 × 1000ms)\n[1000ms] Attempt 2 → Server 503!',500);
+    setTimeout(()=>el.textContent+='\n[3000ms] Wait 2s (2^1 × 1000ms)\n[3000ms] Attempt 3 → ✓ 200 OK!\n\n✓ Exponential backoff prevents server overload',1500);}
+}
+
+// REACT
+function reactDemo(type){
+  const el=document.getElementById('reactDemo');
+  if(type==='counter'){
+    let count=0;
+    el.innerHTML=`<div style="text-align:center;padding:1rem;"><div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--react);margin-bottom:1rem;" id="rCount">0</div><div style="display:flex;gap:8px;justify-content:center;"><button onclick="updateCount(-1)" style="padding:8px 16px;background:var(--panel);border:1px solid var(--react);color:var(--react);border-radius:4px;cursor:pointer;font-size:1rem;">−</button><button onclick="updateCount(0)" style="padding:8px 16px;background:rgba(228,77,38,0.2);border:1px solid var(--html);color:var(--html);border-radius:4px;cursor:pointer;font-size:0.8rem;">Reset</button><button onclick="updateCount(1)" style="padding:8px 16px;background:var(--panel);border:1px solid var(--react);color:var(--react);border-radius:4px;cursor:pointer;font-size:1rem;">+</button></div></div>`;
+    window.updateCount=(dir)=>{count=dir===0?0:count+dir;document.getElementById('rCount').textContent=count;document.getElementById('reactOut').textContent=`>>> useState hook:\n// count = ${count}\n// Re-renders ONLY this component\n// Immutable: never mutate state directly`;}; 
+    document.getElementById('reactOut').textContent='>>> const [count, setCount] = useState(0)\n// Click + or − to update state';}
+  else if(type==='todo'){
+    let todos=['Learn React','Build projects'];
+    const render=()=>{el.innerHTML=`<div style="padding:0.75rem;"><div style="display:flex;gap:6px;margin-bottom:8px;"><input id="todoInput" placeholder="New task..." style="flex:1;background:#0A0A18;border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:3px;font-size:0.77rem;"/><button onclick="addTodo()" style="padding:5px 10px;background:rgba(97,218,251,0.15);border:1px solid var(--react);color:var(--react);border-radius:3px;cursor:pointer;font-size:0.7rem;">ADD</button></div>${todos.map((t,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;margin-bottom:4px;background:#0A0A18;border:1px solid var(--border);border-radius:3px;font-family:var(--mono);font-size:0.72rem;color:var(--text);"><span>${t}</span><button onclick="removeTodo(${i})" style="background:none;border:none;color:var(--pink);cursor:pointer;">×</button></div>`).join('')}</div>`;};
+    window.addTodo=()=>{const v=document.getElementById('todoInput')?.value?.trim();if(v){todos=[...todos,v];render();document.getElementById('reactOut').textContent=`>>> useReducer: ADD action\ndispatch({type:'ADD',payload:'${v}'})\n// Immutable: spreading existing array`;};};
+    window.removeTodo=(i)=>{todos=todos.filter((_,idx)=>idx!==i);render();document.getElementById('reactOut').textContent=`>>> useReducer: REMOVE action\ndispatch({type:'REMOVE',index:${i}})\n// todos.filter() creates new array`;};
+    render();document.getElementById('reactOut').textContent='>>> useReducer pattern for complex state';}
+  else if(type==='fetch'){
+    el.innerHTML=`<div style="padding:1rem;text-align:center;"><div id="rFetchStatus" style="font-family:var(--mono);font-size:0.75rem;color:var(--react);margin-bottom:0.5rem;">⏳ Loading...</div><div id="rFetchData" style="font-family:var(--mono);font-size:0.72rem;color:var(--text);"></div></div>`;
+    setTimeout(()=>{document.getElementById('rFetchStatus').textContent='✓ Data Loaded!';document.getElementById('rFetchData').textContent='[{id:1,name:"Alice"},{id:2,name:"Bob"},{id:3,name:"Carol"}]';document.getElementById('reactOut').textContent='>>> useEffect(() => { fetch(url) }, [url])\n// Runs AFTER render\n// Cleanup function prevents memory leaks\n// Dependency array controls when it runs';},1200);}
+  else{document.getElementById('reactOut').textContent='>>> Custom Hook: useFetch(url)\n\n// Returns: { data, loading, error }\n// Reusable across ANY component\n// Encapsulates fetch logic + state\n// Cleanup on unmount prevents memory leaks\n\nconst { data, loading } = useFetch("/api/users");\nconst { data: posts } = useFetch("/api/posts");\n// Same hook, different URLs!';el.innerHTML=`<div style="padding:1rem;font-family:var(--mono);font-size:0.72rem;color:var(--text-dim);"><div style="color:var(--react);margin-bottom:8px;">Custom Hook Pattern:</div><div>function useFetch(url) {</div><div style="padding-left:1rem;">const [data, setData] = useState(null);</div><div style="padding-left:1rem;">const [loading, setLoading] = useState(true);</div><div style="padding-left:1rem;">useEffect(() => { fetch(url)... }, [url]);</div><div style="padding-left:1rem;color:var(--react);">return { data, loading, error };</div><div>}</div></div>`;}}
+
+// QUIZ
+const wQuestions=[
+  {q:"What is the correct HTML5 tag for the main navigation?",opts:["<div id='nav'>","<navigation>","<nav>","<menu>"],ans:2,t:"HTML"},
+  {q:"Which CSS property creates a flexbox container?",opts:["display: block","display: flex","float: left","position: flex"],ans:1,t:"CSS"},
+  {q:"What does 'mobile-first' CSS mean?",opts:["Design for desktop then shrink","Base styles for mobile, enhance upward","Only support mobile","Remove desktop styles"],ans:1,t:"Responsive"},
+  {q:"What does the '?.' operator do in JavaScript?",opts:["Ternary operator","Optional chaining — prevents null errors","Nullish coalescing","Bitwise AND"],ans:1,t:"JavaScript"},
+  {q:"Which hook manages side effects in React?",opts:["useState","useContext","useEffect","useRef"],ans:2,t:"React"},
+  {q:"What does CSS Grid's 'auto-fit' do?",opts:["Makes grid items auto-size","Automatically fits as many columns as possible","Removes empty columns","Sets column auto width"],ans:1,t:"CSS"},
+  {q:"Which Promise method runs all promises in parallel?",opts:["Promise.series()","Promise.all()","Promise.race()","Promise.sequence()"],ans:1,t:"JavaScript"},
+  {q:"What is the purpose of 'alt' attribute on images?",opts:["Set image size","SEO and accessibility for screen readers","Add image border","Create image tooltip"],ans:1,t:"HTML"},
+  {q:"Which React hook prevents unnecessary re-computations?",opts:["useState","useEffect","useCallback","useMemo"],ans:3,t:"React"},
+  {q:"What does 'flex: 1 1 200px' mean?",opts:["Width is exactly 200px","Can grow(1) shrink(1) with base 200px","Fixed 200px no grow","200px margin"],ans:1,t:"CSS"}
+];
+let wqIdx=0,wqScore=0,wqAnswered=0,wqAnsweredCurrent=false;
+function wInitQuiz(){wqIdx=0;wqScore=0;wqAnswered=0;wRenderQ();}
+function wRenderQ(){
+  if(wqIdx>=wQuestions.length){document.getElementById('wQuizArea').innerHTML=`<div style="text-align:center;padding:2rem;"><div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--react);">${wqScore}/10</div><div style="font-family:var(--mono);color:var(--text-dim);margin-top:0.5rem;">${wqScore>=8?'🌐 Full-Stack Ready!':wqScore>=6?'👍 Junior Dev Level!':'📚 Keep Building!'}</div></div>`;return;}
+  const q=wQuestions[wqIdx];wqAnsweredCurrent=false;
+  document.getElementById('wQuizArea').innerHTML=`<div style="font-family:var(--mono);font-size:0.62rem;color:var(--text-dim);margin-bottom:0.5rem;">Q${wqIdx+1}/10 — ${q.t}</div><div class="quiz-q">${q.q}</div><div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="wAnswerQ(${i})" id="wqopt${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>`;
+}
+function wAnswerQ(idx){if(wqAnsweredCurrent)return;wqAnsweredCurrent=true;wqAnswered++;const q=wQuestions[wqIdx];const ok=idx===q.ans;if(ok)wqScore++;document.getElementById('wqopt'+idx).className='quiz-opt '+(ok?'correct':'wrong');if(!ok)document.getElementById('wqopt'+q.ans).className='quiz-opt correct';document.getElementById('wQC').textContent=wqScore;document.getElementById('wQW').textContent=wqAnswered-wqScore;document.getElementById('wQPct').textContent=Math.round(wqScore/wqAnswered*100)+'%';document.getElementById('wQProg').textContent=`${wqAnswered}/10`;document.getElementById('wScoreFill').style.width=(wqAnswered/10*100)+'%';}
+function wNextQ(){if(!wqAnsweredCurrent&&wqIdx<wQuestions.length)wAnswerQ(-1);wqIdx++;wRenderQ();}
+function wResetQuiz(){wInitQuiz();['wQC','wQW','wQPct'].forEach(id=>document.getElementById(id).textContent=id==='wQPct'?'0%':'0');document.getElementById('wQProg').textContent='0/10';document.getElementById('wScoreFill').style.width='0%';}
+
+function drawWebRadar(){
+  const c=document.getElementById('webRadar');if(!c)return;
+  c.width=c.offsetWidth||380;const ctx=c.getContext('2d'),W=c.width,H=280,cx=W/2,cy=H/2,r=100;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#0A0A18';ctx.fillRect(0,0,W,H);
+  const skills=['HTML5','CSS3','JavaScript','React','APIs','Responsive'];const vals=[0.85,0.78,0.80,0.70,0.72,0.82];const n=skills.length;
+  const ang=(i)=>(-Math.PI/2)+(i*(2*Math.PI/n));
+  [0.25,0.5,0.75,1].forEach(s=>{ctx.beginPath();for(let i=0;i<n;i++){const x=cx+Math.cos(ang(i))*r*s,y=cy+Math.sin(ang(i))*r*s;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.closePath();ctx.strokeStyle=`rgba(97,218,251,${0.08+s*0.08})`;ctx.lineWidth=0.5;ctx.stroke();});
+  for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(ang(i))*r,cy+Math.sin(ang(i))*r);ctx.strokeStyle='rgba(97,218,251,0.1)';ctx.lineWidth=0.5;ctx.stroke();}
+  ctx.beginPath();vals.forEach((v,i)=>{const x=cx+Math.cos(ang(i))*r*v,y=cy+Math.sin(ang(i))*r*v;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.fillStyle='rgba(97,218,251,0.1)';ctx.fill();ctx.strokeStyle='#61DAFB';ctx.lineWidth=2;ctx.stroke();
+  skills.forEach((s,i)=>{const x=cx+Math.cos(ang(i))*(r+18),y=cy+Math.sin(ang(i))*(r+18);ctx.fillStyle='#8BA8CC';ctx.font='8px Nunito';ctx.textAlign='center';ctx.fillText(s,x,y+4);});
+}
+
+window.addEventListener('load',()=>{buildForm('signup');updateFlex();wInitQuiz();drawWebRadar();runHTML();});
+</script>
+</body>
+</html>
